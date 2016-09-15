@@ -84,3 +84,31 @@ class SundataParser
     end
   end
 end
+
+if $0.match /\A\/?sundata_parser.rb/
+  require "optparse"
+  ARGV << "-h" if ARGV.empty?
+  optparser = OptionParser.new do |opts|
+    opts.banner = "Usage: sundata_parser.rb --outfile OUTPUT_FILENAME INPUT_FILE..."
+    opts.on "-oOUTFILE", "--outfile OUTFILE", "The name of the file output will be written to" do |outfile|
+      OUTFILE = outfile
+    end
+
+    opts.on "-h", "--help", "Prints this help" do
+      puts opts
+      puts "  for more information and help visit https://github.com/nuclearsandwich/sundata-parser"
+      exit
+    end
+  end.parse!
+
+  if ARGV.empty?
+    puts "Error: no input files. Run `#{$0} -h` for more information."
+    exit
+  end
+
+  parser = SundataParser.new ARGV
+  parser.read
+  parser.parse
+  parser.write_csv OUTFILE
+end
+
