@@ -7,16 +7,32 @@ class TestSammy < MiniTest::Test
     assert_equal "4", Sammy.site_from_filename("sam 04 _7_1.TXT")
   end
 
+  def test_tnc_site_from_filename_for_2011
+    assert_equal "tnc 2", Sammy.site_from_filename("sam_tnc_2_5-10.TXT")
+  end
+
   def test_site_from_filename_for_2012_and_on
     assert_equal "1", Sammy.site_from_filename("site 1 2013.TXT")
+  end
+
+  def test_tnc_site_from_filename_for_2012_and_on
+    assert_equal "tnc 2", Sammy.site_from_filename("tnc 2 2013.TXT")
   end
 
   def test_year_from_filename_for_2011
     assert_equal "2011", Sammy.year_from_filename("sam 04 _7_1.TXT")
   end
 
+  def test_year_from_tnc_filename_for_2011
+    assert_equal "2011", Sammy.year_from_filename("sam_tnc_2_5-10.TXT")
+  end
+
   def test_year_from_filename_for_2012_and_on
     assert_equal "2013", Sammy.year_from_filename("site 1 2013.TXT")
+  end
+
+  def test_year_from_tnc_filename_for_2012_and_on
+    assert_equal "2013", Sammy.year_from_filename("tnc 1 2013.TXT")
   end
 end
 
