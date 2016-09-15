@@ -32,6 +32,14 @@ class SundataParser
 
         if !arrived_at_table_data
           next if line =~ /\ACreated by SunData/ # Skip created by line
+          if date_match = line.match(/\A(\d\d\d\d-\d\d-\d\d)\t\tLocal time is (GMT.\d+ Hrs)/)
+            line_data["date"] = date_match[1]
+            line_data["timezone"] = date_match[2]
+          end
+
+          if sunscan_match = line.match(/\ASunScan probe (v.*)/)
+            line_data["sunscan version"] = sunscan_match[1]
+          end
 
           # Once we hit the table hearder we can start processing tabular data.
           arrived_at_table_data = true and next if line =~ /\ATime\tPlot\t/

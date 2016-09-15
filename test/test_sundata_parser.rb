@@ -18,6 +18,17 @@ class TestSundataParser < MiniTest::Test
     end
   end
 
+  def test_parses_sunscan_date_and_timezone
+    sample_data = @parser.output_data.first
+    assert_equal "2012-07-17", sample_data["date"]
+    assert_equal "GMT-4 Hrs", sample_data["timezone"]
+  end
+
+  def test_parses_sunscan_version
+    sample_data = @parser.output_data.first
+    assert_equal "v1.02R (C) JGW 2004/01/19", sample_data["sunscan version"]
+  end
+
   def test_parses_sunscan_table_attributes
     sample_data = @parser.output_data.first
     assert_equal "13:12:37", sample_data["time"]
