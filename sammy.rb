@@ -8,5 +8,13 @@ module Sammy
       site.to_i.to_s
     end
   end
+
+  def self.year_from_filename filename
+    if File.basename(filename) =~ /\Asam/
+      year = "2011"
+    else
+      year = File.basename(filename).match(/\Asite \d+ (\d\d\d\d)/)[1]
+    end
+  end
 end
 

@@ -10,5 +10,13 @@ class TestSammy < MiniTest::Test
   def test_site_from_filename_for_2012_and_on
     assert_equal "1", Sammy.site_from_filename("site 1 2013.TXT")
   end
+
+  def test_year_from_filename_for_2011
+    assert_equal "2011", Sammy.year_from_filename("sam 04 _7_1.TXT")
+  end
+
+  def test_year_from_filename_for_2012_and_on
+    assert_equal "2013", Sammy.year_from_filename("site 1 2013.TXT")
+  end
 end
 
