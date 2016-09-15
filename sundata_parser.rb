@@ -28,6 +28,7 @@ class SundataParser
       arrived_at_table_data = false
 
       data.split("\r\n").each do |line|
+        line_data = line_data.dup
         next if line.strip.empty? # Skip blank and whitespace lines
 
         if !arrived_at_table_data
