@@ -41,15 +41,15 @@ class TestSundataParser < MiniTest::Test
 
   def test_parses_sunscan_table_attributes
     sample_data = @parser.output_data.first
-    assert_equal "13:12:37", sample_data["time"]
-    assert_equal "21", sample_data["plot"]
-    assert_equal "4", sample_data["sample"]
-    assert_equal "164.0", sample_data["transmitted"]
-    assert_equal "0.38", sample_data["spread"]
-    assert_equal "1770.8", sample_data["incident"]
-    assert_equal "0.80", sample_data["beam"]
-    assert_equal "14.3", sample_data["zenith angle"]
-    assert_equal "4.6", sample_data["lai"]
+    assert_equal "13:08:35", sample_data["time"]
+    assert_equal "1", sample_data["plot"]
+    assert_equal "1", sample_data["sample"]
+    assert_equal "693.8", sample_data["transmitted"]
+    assert_equal "0.20", sample_data["spread"]
+    assert_equal "1730.5", sample_data["incident"]
+    assert_equal "0.82", sample_data["beam"]
+    assert_equal "14.5", sample_data["zenith angle"]
+    assert_equal "1.7", sample_data["lai"]
     assert_equal nil, sample_data["notes"]
   end
 
