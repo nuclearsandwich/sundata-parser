@@ -41,8 +41,20 @@ class SundataParser
             line_data["sunscan version"] = sunscan_match[1]
           end
 
+          if line[":"]
+            line.split(":").map(&:strip).each_slice(2) do |key, value|
+              next if value.nil? || value.empty?
+              line_data[key.downcase] = value
+            end
+          end
+
+          if line =~ /\ATime\tPlot\t/ # Skip table header line.
+            arrived_at_table_data = true
+            next
+          end
+
           # Once we hit the table hearder we can start processing tabular data.
-          arrived_at_table_data = true and next if line =~ /\ATime\tPlot\t/
+          arrived_at_table_data = true and next if line =~ /\ATime\tPlot\t/ # Skip table header line.
         else
           table_line = line.split("\t")
           line_data["time"] = table_line[0]

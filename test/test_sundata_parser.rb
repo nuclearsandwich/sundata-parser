@@ -29,6 +29,16 @@ class TestSundataParser < MiniTest::Test
     assert_equal "v1.02R (C) JGW 2004/01/19", sample_data["sunscan version"]
   end
 
+  def test_parses_sunscan_file_attributes
+    sample_data = @parser.output_data.first
+    assert_equal "Ft. Bragg", sample_data["location"]
+    assert_equal "site 1", sample_data["title"]
+    assert_equal "35.17N", sample_data["latitude"]
+    assert_equal "79.18W", sample_data["longitude"]
+    assert_equal "BFS", sample_data["ext sensor"]
+    assert_equal "1", sample_data["leaf angle distn parameter"]
+  end
+
   def test_parses_sunscan_table_attributes
     sample_data = @parser.output_data.first
     assert_equal "13:12:37", sample_data["time"]
