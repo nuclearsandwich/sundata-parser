@@ -7,6 +7,11 @@ class TestSammy < MiniTest::Test
     assert_equal "4", Sammy.site_from_filename("sam 04 _7_1.TXT")
   end
 
+  def test_site_from_filename_without_space_for_2011
+    assert_equal "12", Sammy.site_from_filename("sam12_2_08.TXT")
+  end
+
+
   def test_tnc_site_from_filename_for_2011
     assert_equal "tnc 2", Sammy.site_from_filename("sam_tnc_2_5-10.TXT")
   end
