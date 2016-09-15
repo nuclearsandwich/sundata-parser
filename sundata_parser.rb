@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require "csv"
 require_relative "sammy"
 
 class SundataParser
@@ -49,10 +50,8 @@ class SundataParser
             end
           end
 
-          if line =~ /\ATime\tPlot\t/ # Skip table header line.
-            arrived_at_table_data = true
-            next
-          end
+          next if line =~ /\ATime\tPlot\t/ # Skip table header line.
+          arrived_at_table_data = true and next if line =~ /\s+mitted\s+ent/ # Skip table header line.
 
           # Once we hit the table hearder we can start processing tabular data.
           arrived_at_table_data = true and next if line =~ /\ATime\tPlot\t/ # Skip table header line.
@@ -76,6 +75,12 @@ class SundataParser
   end
 
   def write_csv filename
-    File.write(filename, input_data)
+    CSV.open filename, "wb", row_sep: "\r\n" do |csv|
+      # Header line
+      csv << %w[year site time plot sample transmitted spread incident beam zenith\ angle lai notes]
+      output_data.sort_by{|o| o["site"]}.each do |out|
+        csv << [out["year"], out["site"], out["time"], out["plot"], out["sample"], out["transmitted"], out["spread"], out["incident"], out["beam"], out["zenith angle"], out["lai"], out["notes"]]
+      end
+    end
   end
 end
