@@ -21,5 +21,6 @@ class SundataParser
   end
 
   def write_csv filename
+    File.write(filename, input_data)
   end
 end

@@ -17,4 +17,15 @@ class TestSundataParser < MiniTest::Test
       refute_nil @parser.input_data[f], "No data read for #{f}"
     end
   end
+
+  def test_writes_out_csv_file
+    sunscan_files = ["sam 01 _6 27.TXT", "sam 03 _6 27.TXT", "sam 04 _7_1.TXT", "sam 05 _6 28.TXT", "sam 06 6_30.TXT"].map{|name| File.join(@fixture_root, name)}
+    outfile = File.join(@fixture_root, "2011-test-output.csv")
+    parser = SundataParser.new sunscan_files
+    parser.read
+    parser.parse
+    parser.write_csv(outfile)
+    assert File.exist?(outfile), "Output file #{outfile} not written."
+    assert_equal File.read(outfile), File.read(File.join(@fixture_root, "sunscan_data_v1.csv"))
+  end
 end
