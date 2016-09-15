@@ -1,12 +1,11 @@
 module Sammy
   def self.site_from_filename filename
     if File.basename(filename) =~ /\Asam/
-      match = File.basename(filename).match(/\Asam(?: (\d+)|_(tnc_\d+))/)
+      match = File.basename(filename).match(/\Asam(?: (\d+\w?)|_(tnc_\d+))/)
       site = match[1] || match[2]
-
       site.sub(/\A0/,"").gsub("_", " ")
     else
-      match = File.basename(filename).match(/(?:\Asite (\d+)|(\Atnc \d+))/)
+      match = File.basename(filename).match(/(?:\Asite (\d+\w?)|(\Atnc \d+))/)
       site = match[1] || match[2]
       site.sub(/\A0/,"").gsub("_", " ")
     end

@@ -15,6 +15,10 @@ class TestSammy < MiniTest::Test
     assert_equal "1", Sammy.site_from_filename("site 1 2013.TXT")
   end
 
+  def test_site_from_filename_for_15b
+    assert_equal "15b", Sammy.site_from_filename("site 15b 2013.TXT")
+  end
+
   def test_tnc_site_from_filename_for_2012_and_on
     assert_equal "tnc 2", Sammy.site_from_filename("tnc 2 2013.TXT")
   end
