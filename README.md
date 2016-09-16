@@ -5,7 +5,7 @@ Parse files from SunData for Windows Mobile and output a csv result.
 
 This initial version is written for a specific situation and could be rebuilt for others.
 
-Getting data into your spreadsheet application as quick as
+Getting data into your spreadsheet application as quick as  
 `ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
 
 ## Prerequisites
