@@ -53,6 +53,8 @@ ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data
 ```
 Depending on your terminal environment using [globs](https://en.wikipedia.org/wiki/Glob_%28programming%29) may remove the need for quoting.
 
+The code here is released under [a permissive license](LICENSE). If for some reason you need a separate licensing option please contact me directly.
+
 ## Getting help
 
 If you have trouble using this program I'm happy to help you sort it out!
@@ -61,13 +63,15 @@ If you don't have a GitHub account you can also email me: <steven@nuclearsandwic
 
 ## Changing the output data
 
-TODO. Contact <steven@nuclearsandwich.com> for assistance with this.
+TODO. Contact me via the email address on [my profile](https://github.com/nuclearsandwich) for assistance with this.
 
 ## Changing the parsing strategy
 
-TODO. Contact <steven@nuclearsandwich.com> for assistance with this.
+TODO. Contact me via the email address on [my profile](https://github.com/nuclearsandwich) for assistance with this.
 
 ## Contributing
+
+Contributions and changes are welcome! Feel free to contact me with assistance making changes or if you want to just [submit a pull request](https://help.github.com/articles/creating-a-pull-request/) that's great too.
 
 Because the sunscan data uses carriage return (`CR`, `\r`, `^M`) characters at the end of lines, you may run into issues with your Git configuration and see something like
 
@@ -83,6 +87,6 @@ git config core.autocrlf false
 
 #### A note about tests
 
-Because I don't have permission to publish the data, the test currently fail without the provided fixtures.
+Because I don't have permission to publish the data I initially wrote this program for, the test currently fail without the provided fixtures.
 I will in the future fake some data in order to provide public fixtures.
-If you have data to donate I'll gladly use it too, as long as you're able to provide an Apache license compatible license to distribute the test data.
+If you have data to donate I'll gladly use it too, as long as you're able to provide a license to the data compatible with this software's [license](LICENSE) to distribute the test data.
