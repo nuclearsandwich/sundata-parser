@@ -23,7 +23,7 @@ module Sammy
     if File.basename(filename) =~ /\Asam/
       year = "2011"
     else
-      match = File.basename(filename).match(/\A(?:site|tnc) \d+[a-z] (\d\d\d\d)/)
+      match = File.basename(filename).match(/\A(?:site|tnc) \d+[a-z]? (\d\d\d\d)/)
       if match.nil?
         STDERR.puts "Unable to glean year from filename #{filename}."
         exit(1)
