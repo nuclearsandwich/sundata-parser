@@ -1,13 +1,16 @@
 sundata parser
 ==============
 
-Parse files from SunData and output a csv result.
+Parse files from SunData for Windows Mobile and output a csv result.
 
 This initial version is written for a specific situation and could be rebuilt for others.
 
+Getting data into your spreadsheet application as quick as
+`ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
+
 ## Prerequisites
 
-To use Sundata Parser you'll need 
+To use Sundata Parser you'll need:
 
 - A MacOS or Linux computer (Windows has not yet been tested)
 - The Ruby language (Recent versions of MacOS have Ruby available by default)
