@@ -34,25 +34,26 @@ Download the zip file and extract it somewhere either near your data or within e
 
 ## Running
 
-If your data is in a folder called `sundata` and you've extracted the sundata-parser zip into the current directory you can run the following command to process all data.
+If your data is in a folder called `sundata` and you've extracted the `sundata-parser.zip` file into directory above you can run the following command to process all data.
 
 ```
-ruby sundata_parser.rb --outfile sunscan-data.csv data/sunscan*.TXT
+ruby sundata_parser.rb --outfile sunscan-data.csv sundata/sunscan*.TXT
 ```
 
-The above example will read all files in the `data` directory that begin with `sunscan` and end with `.TXT` (letter case is significant) and write the final output to a file called `sunscan-data.csv`.
+The above example will read all files in the `sundata` directory that begin with `sunscan` and end with `.TXT` (letter case is significant) and write the final output to a file called `sunscan-data.csv`.
 Changing the output file or what files to read from requires only that you change those values when entering the command.
 
 `--outfile`: The name of the to write csv output to.  
 list of input files: A list of input files should follow the output file. The list is separated by spaces so if you have spaces in your filenames, you will need to quote them. For example:
 ```
-ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.csv" "data/site 2 2013.csv"
+ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"
 ```
 Depending on your terminal environment using [globs](https://en.wikipedia.org/wiki/Glob_%28programming%29) may remove the need for quoting.
 
 ## Getting help
 
-If you have trouble using this program I'm happy to help you sort it out! If you have a GitHub.com account already, the best thing to do is open an [issue](https://github.com/nuclearsandwich/sundata-parser/issues/new).
+If you have trouble using this program I'm happy to help you sort it out!
+If you have a GitHub.com account already, the best thing to do is open an [issue](https://github.com/nuclearsandwich/sundata-parser/issues/new).
 If you don't have a GitHub account you can also email me: <steven@nuclearsandwich.com>.
 
 ## Changing the output data
@@ -76,7 +77,6 @@ If you do see that, you can disable autocrlf for just this repository using
 ```
 git config core.autocrlf false
 ```
-
 
 #### A note about tests
 
