@@ -1,4 +1,4 @@
-module Sammy
+module Gleaner
   def self.site_from_filename filename
     if File.basename(filename) =~ /\Asam/
       match = File.basename(filename).match(/\Asam(?: ?(\d+[a-z]?)|_(tnc_\d+))/)

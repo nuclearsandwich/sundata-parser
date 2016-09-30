@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "csv"
-require_relative "sammy"
+require_relative "gleaner"
 
 class SundataParser
   attr_reader :input_files, :input_data, :output_data
@@ -22,8 +22,8 @@ class SundataParser
 
   def parse
     input_data.each do |filename, data|
-      site = Sammy.site_from_filename filename
-      year = Sammy.year_from_filename filename
+      site = Gleaner.site_from_filename filename
+      year = Gleaner.year_from_filename filename
       line_data = { "site" => site, "year" => year }
 
       arrived_at_table_data = false
