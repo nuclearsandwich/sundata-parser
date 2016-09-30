@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require "pry"
 
 require_relative "../sundata_parser"
 
@@ -6,7 +7,7 @@ class TestSundataParser < MiniTest::Test
 
   def setup
     @fixture_root = File.expand_path("../fixtures", __FILE__)
-    @parser_files = [File.join(@fixture_root, "site 1 2012.TXT"), File.join(@fixture_root, "site 1 2013.TXT")]
+    @parser_files = [File.join(@fixture_root, "site 1 2016.TXT"), File.join(@fixture_root, "site 2 2016.TXT")]
     @parser = SundataParser.new @parser_files
     @parser.read
     @parser.parse
@@ -20,7 +21,7 @@ class TestSundataParser < MiniTest::Test
 
   def test_parses_sunscan_date_and_timezone
     sample_data = @parser.output_data.first
-    assert_equal "2012-07-17", sample_data["date"]
+    assert_equal "2016-09-30", sample_data["date"]
     assert_equal "GMT-4 Hrs", sample_data["timezone"]
   end
 
@@ -31,8 +32,8 @@ class TestSundataParser < MiniTest::Test
 
   def test_parses_sunscan_file_attributes
     sample_data = @parser.output_data.first
-    assert_equal "Ft. Bragg", sample_data["location"]
-    assert_equal "site 1", sample_data["title"]
+    assert_equal "Fictional", sample_data["location"]
+    assert_equal "Sample Sunscan Data", sample_data["title"]
     assert_equal "35.17N", sample_data["latitude"]
     assert_equal "79.18W", sample_data["longitude"]
     assert_equal "BFS", sample_data["ext sensor"]
@@ -41,26 +42,26 @@ class TestSundataParser < MiniTest::Test
 
   def test_parses_sunscan_table_attributes
     sample_data = @parser.output_data.first
-    assert_equal "13:08:35", sample_data["time"]
-    assert_equal "1", sample_data["plot"]
+    assert_equal "10:00:18", sample_data["time"]
+    assert_equal "10", sample_data["plot"]
     assert_equal "1", sample_data["sample"]
-    assert_equal "693.8", sample_data["transmitted"]
-    assert_equal "0.20", sample_data["spread"]
-    assert_equal "1730.5", sample_data["incident"]
-    assert_equal "0.82", sample_data["beam"]
-    assert_equal "14.5", sample_data["zenith angle"]
-    assert_equal "1.7", sample_data["lai"]
+    assert_equal "1551.8", sample_data["transmitted"]
+    assert_equal "0.43", sample_data["spread"]
+    assert_equal "1977.7", sample_data["incident"]
+    assert_equal "0.40", sample_data["beam"]
+    assert_equal "165.9", sample_data["zenith angle"]
+    assert_equal "3.4", sample_data["lai"]
     assert_equal nil, sample_data["notes"]
   end
 
   def test_writes_out_csv_file
-    sunscan_files = ["sam 01 _6 27.TXT", "sam 03 _6 27.TXT", "sam 04 _7_1.TXT", "sam 05 _6 28.TXT", "sam 06 6_30.TXT"].map{|name| File.join(@fixture_root, name)}
-    outfile = File.join(@fixture_root, "2011-test-output.csv")
+    sunscan_files = ["site 1 2016.TXT" "site 2 2016.TXT"].map{|name| File.join(@fixture_root, name)}
+    outfile = File.join(@fixture_root, "2016-test-output.csv")
     parser = SundataParser.new sunscan_files
     parser.read
     parser.parse
     parser.write_csv(outfile)
     assert File.exist?(outfile), "Output file #{outfile} not written."
-    assert_equal File.read(outfile), File.read(File.join(@fixture_root, "sunscan_data_v1.csv"))
+    assert_equal File.read(outfile), File.read(File.join(@fixture_root, "sunscan_data_sample.csv"))
   end
 end
