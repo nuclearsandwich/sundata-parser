@@ -10,6 +10,8 @@ I can be reached via the email address listed on [my GitHub profile](https://git
 Getting data into your spreadsheet application as quick as  
 `ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
 
+The code here is released under [a permissive license](LICENSE). If for some reason you need a separate licensing option please contact me directly.
+
 ## Prerequisites
 
 To use Sundata Parser you'll need:
@@ -37,7 +39,7 @@ As log as it says `ruby 2` you should be fine.
 
 I want this to be useful.
 If you're in a completely Windows environment, don't have access to a supported version of the Ruby programming language, or for any reason aren't comfortable or able to follow the instructions provided that's totally okay!
-Send [me an email](mailto:steven@nuclearsandwich.com) and I can either help you through the process or run this on your data for you and give you the result.
+[Send me an email](mailto:steven@nuclearsandwich.com) and I can either help you through the process or run this on your data for you and give you the result.
 I'm exploring ways to make this tool more widely accessible and your feedback would be welcome.
 
 
@@ -47,7 +49,6 @@ Download the zip file and extract it somewhere either near your data or within e
 
 
 ## Running locally
-
 
 If your data is in a folder called `sundata` and you've extracted the `sundata-parser.zip` file into directory above you can run the following command to process all data.
 
@@ -59,13 +60,24 @@ The above example will read all files in the `sundata` directory that begin with
 Changing the output file or what files to read from requires only that you change those values when entering the command.
 
 `--outfile`: The name of the to write csv output to.  
-list of input files: A list of input files should follow the output file. The list is separated by spaces so if you have spaces in your filenames, you will need to quote them. For example:
 ```
-ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"
+ruby sundata_parser.rb --outfile "sunscan data.csv" "data/file1.TXT" "data/file2.TXT"
 ```
+
+`--fields`: Which fields to include in the output. By default all fields present in the data are kept.
+All fiends should be comma separated.
+```
+ruby sundata_parser.rb --outfile "sunscan data.csv" --fields "site,plot,transmitted,beam,lai,notes" "data/file 1.TXT" "data/file 2.TXT"
+```
+
+list of input files: A list of input files should follow the other options.
+The list is separated by spaces so if you have spaces in your filenames, you will need to quote them.
+```
+ruby sundata_parser.rb "data/file 1.TXT" "data/file 2.TXT" data/other.TXT
+```
+
 Depending on your terminal environment using [globs](https://en.wikipedia.org/wiki/Glob_%28programming%29) may remove the need for quoting.
 
-The code here is released under [a permissive license](LICENSE). If for some reason you need a separate licensing option please contact me directly.
 
 ## Getting help
 
@@ -86,11 +98,13 @@ To explicitly set which fields should be in the output csv you can set them with
 ruby sundata_parser.rb --outfile "sunscan data.csv" --fields "site,plot,transmitted,beam,lai,notes" "data/file 1.TXT" "data/file 2.TXT"
 ```
 
+
 #### Specifying fields via Ruby script
 
 ```ruby
 parser.write_csv(csv_filename, ["site", "plot", "transmitted", "beam", "lai", "notes"])
 ```
+
 
 ## Adding fields with a pre-processor
 
@@ -104,6 +118,7 @@ parser.preprocessor do |filename, rowdata_template|
   rowdata_template.original_filename = filename
 end
 ```
+
 
 ## Contributing
 
@@ -122,8 +137,8 @@ If you do see that, you can disable autocrlf for just this repository using
 git config core.autocrlf false
 ```
 
+
 #### A note about tests
 
-Because I don't have permission to publish the data I initially wrote this program for, the test currently fail without the provided fixtures.
-I will in the future fake some data in order to provide public fixtures.
-If you have data to donate I'll gladly use it too, as long as you're able to provide a license to the data compatible with this software's [license](LICENSE) to distribute the test data.
+Because I don't have permission to publish the data I initially wrote this program for, the test currently use randomly generated sample data.
+If you have data to donate I'll gladly use it too, as long as you're able to provide it under a distribution license compatible with this software's [license](LICENSE).
