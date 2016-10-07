@@ -33,7 +33,7 @@ The output will be something like
 ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
 ```
 
-As log as it says `ruby 2` you should be fine.
+As long as it says `ruby 2` you should be fine.
 
 ## SunData as a service. :smile:
 
