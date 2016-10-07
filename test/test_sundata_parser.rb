@@ -1,6 +1,5 @@
 require "minitest/autorun"
 require "pry"
-
 require_relative "../sundata_parser"
 require_relative "../gleaner"
 
