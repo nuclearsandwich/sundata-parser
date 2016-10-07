@@ -60,13 +60,31 @@ class TestSundataParser < MiniTest::Test
   end
 
   def test_writes_out_csv_file
-    sunscan_files = ["site 1 2016.TXT" "site 2 2016.TXT"].map{|name| File.join(@fixture_root, name)}
     outfile = File.join(@fixture_root, "2016-test-output.csv")
-    parser = SundataParser.new sunscan_files
+    parser = SundataParser.new @parser_files
     parser.read
     parser.parse
     parser.write_csv(outfile)
     assert File.exist?(outfile), "Output file #{outfile} not written."
-    assert_equal File.read(outfile), File.read(File.join(@fixture_root, "sunscan_data_sample.csv"))
+    assert_equal File.read(File.join(@fixture_root, "sunscan_data_sample.csv")), File.read(outfile)
+  end
+
+  def test_preprocessor_adds_fields_to_each_row
+    parser = SundataParser.new @parser_files
+    parser.preprocess do |filename, rowdata_template|
+      rowdata_template.filenames ||= Array.new
+      rowdata_template.testing = "result"
+    end
+    parser.read
+    parser.parse
+    output_data = parser.output_data.sample
+    assert_equal "result", output_data.testing
+  end
+
+  def test_error_when_preprocess_is_missing_block_argument
+    parser = SundataParser.new @parser_files
+    assert_raises(ArgumentError, "No exception raised when calling preprocess without a block.") do
+      parser.preprocess
+    end
   end
 end

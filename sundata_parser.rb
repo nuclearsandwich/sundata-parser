@@ -21,6 +21,9 @@ class SundataParser
   end
 
   def preprocess &preprocess_block
+    if preprocess_block.nil?
+      raise ArgumentError.new "#preprocess received with no block argument."
+    end
     @preprocess_block = preprocess_block
   end
 
