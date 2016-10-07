@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "pry"
 
 require_relative "../sundata_parser"
+require_relative "../gleaner"
 
 class TestSundataParser < MiniTest::Test
 
@@ -9,6 +10,10 @@ class TestSundataParser < MiniTest::Test
     @fixture_root = File.expand_path("../fixtures", __FILE__)
     @parser_files = [File.join(@fixture_root, "site 1 2016.TXT"), File.join(@fixture_root, "site 2 2016.TXT")]
     @parser = SundataParser.new @parser_files
+    @parser.preprocess do |filename, rowdata_template|
+      rowdata_template.year = Gleaner.year_from_filename filename
+      rowdata_template.site = Gleaner.site_from_filename filename
+    end
     @parser.read
     @parser.parse
   end
@@ -27,7 +32,7 @@ class TestSundataParser < MiniTest::Test
 
   def test_parses_sunscan_version
     sample_data = @parser.output_data.first
-    assert_equal "v1.02R (C) JGW 2004/01/19", sample_data["sunscan version"]
+    assert_equal "v1.02R (C) JGW 2004/01/19", sample_data.sunscan_version
   end
 
   def test_parses_sunscan_file_attributes
@@ -49,7 +54,7 @@ class TestSundataParser < MiniTest::Test
     assert_equal "0.43", sample_data["spread"]
     assert_equal "1977.7", sample_data["incident"]
     assert_equal "0.40", sample_data["beam"]
-    assert_equal "165.9", sample_data["zenith angle"]
+    assert_equal "165.9", sample_data.zenith_angle
     assert_equal "3.4", sample_data["lai"]
     assert_equal nil, sample_data["notes"]
   end
