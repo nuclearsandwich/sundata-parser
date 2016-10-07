@@ -179,32 +179,54 @@ class SundataParser
       end
     end
   end
+
+  # Class method for running command line program.
+  # Automatically called if $0 is this file.
+  #
+  # Can be called manually by requiring this file. When called from Ruby
+  # this class method can take the preprocess_block directly.
+  def SundataParser.run! argument_values, &preprocess_block
+    require "optparse"
+    argument_values << "-h" if argument_values.empty?
+    optparser = OptionParser.new do |opts|
+      opts.banner = "Usage: sundata_parser.rb --outfile OUTPUT_FILENAME --fields FIELDS INPUT_FILE..."
+      opts.on "-oOUTFILE", "--outfile OUTFILE", "The name of the file output will be written to" do |outfile|
+        @outfile = outfile
+      end
+      opts.on "-fFIELDS", "--fields FIELDS", "A comma-separated list of fields to output" do |fields|
+        @fields = fields.split(",")
+      end
+
+      opts.on "-h", "--help", "Prints this help" do
+        puts opts
+        puts "  for more information and help visit https://github.com/nuclearsandwich/sundata-parser"
+        exit
+      end
+    end.parse!(argument_values)
+
+    if argument_values.empty?
+      puts "Error: no input files. Run `#{$0} -h` for more information."
+      exit(1)
+    end
+
+    unless defined?(@outfile)
+      puts "Error: no output file. Run `#{$0} -h` for more information."
+      exit(1)
+    end
+
+    parser = SundataParser.new argument_values
+    parser.preprocess &preprocess_block unless preprocess_block.nil?
+    parser.read
+    parser.parse
+    if defined?(@fields)
+      parser.write_csv @outfile, @fields
+    else
+      parser.write_csv @outfile
+    end
+  end
 end
 
 if $0.match /\A\/?sundata_parser.rb/
-  require "optparse"
-  ARGV << "-h" if ARGV.empty?
-  optparser = OptionParser.new do |opts|
-    opts.banner = "Usage: sundata_parser.rb --outfile OUTPUT_FILENAME INPUT_FILE..."
-    opts.on "-oOUTFILE", "--outfile OUTFILE", "The name of the file output will be written to" do |outfile|
-      OUTFILE = outfile
-    end
-
-    opts.on "-h", "--help", "Prints this help" do
-      puts opts
-      puts "  for more information and help visit https://github.com/nuclearsandwich/sundata-parser"
-      exit
-    end
-  end.parse!
-
-  if ARGV.empty?
-    puts "Error: no input files. Run `#{$0} -h` for more information."
-    exit
-  end
-
-  parser = SundataParser.new ARGV
-  parser.read
-  parser.parse
-  parser.write_csv OUTFILE
+  SundataParser.run! ARGV
 end
 
