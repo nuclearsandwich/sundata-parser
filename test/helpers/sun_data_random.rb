@@ -127,12 +127,8 @@ Time	Plot	Sample	Trans-	Spread	Incid-	Beam	Zenith	LAI	Notes
 TEMPLATE
 
     @table_rows.times do |i|
-      begin
-        header << [times[i], plots_and_samples[i][0], plots_and_samples[i][1], incident_transmitted_light[i][1], spread[i],
+      header << [times[i], plots_and_samples[i][0], plots_and_samples[i][1], incident_transmitted_light[i][1], spread[i],
                  incident_transmitted_light[i][0], beam_fraction[i], zenith_angle[i], leaf_area_index[i]].join("\t") + "\n"
-      rescue
-        binding.pry
-      end
     end
 
     header.gsub(/\n/, "\r\n")
