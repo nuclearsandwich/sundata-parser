@@ -5,7 +5,7 @@ Parse files from SunData for Windows Mobile and output a csv result.
 
 This initial version is written to process a specific set of data.
 If you wish to use this for other collections of sundata output that's great!
-I can be reached via the email address listed on [my GitHub profile](https://github.com/nuclearsandwich)
+I can be reached via the email address listed on [my GitHub profile](https://github.com/nuclearsandwich) if you have trouble.
 
 Getting data into your spreadsheet application as quick as  
 `ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
@@ -118,6 +118,11 @@ parser.preprocessor do |filename, rowdata_template|
   rowdata_template.original_filename = filename
 end
 ```
+
+## Known issues
+
+This isn't perfect software and it's had real testing on a very limited set of data.
+If there are any known issues they'll be listed on the [issues page](https://github.com/nuclearsandwich/sundata-parser/issues).
 
 
 ## Contributing
