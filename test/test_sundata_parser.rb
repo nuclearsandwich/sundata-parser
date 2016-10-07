@@ -58,14 +58,28 @@ class TestSundataParser < MiniTest::Test
     assert_equal nil, sample_data["notes"]
   end
 
-  def test_writes_out_csv_file
+  def test_writes_out_csv_file_with_custom_fields
     outfile = File.join(@fixture_root, "2016-test-output.csv")
+    parser = SundataParser.new @parser_files
+    parser.read
+    parser.preprocess do |filename, rowdata_template|
+      rowdata_template.year = Gleaner.year_from_filename filename
+      rowdata_template.site = Gleaner.site_from_filename filename
+    end
+    parser.parse
+    parser.write_csv(outfile, %w[year site time plot sample transmitted spread incident beam zenith_angle lai notes])
+    assert File.exist?(outfile), "Output file #{outfile} not written."
+    assert_equal File.read(File.join(@fixture_root, "sunscan_data_sample.csv")), File.read(outfile)
+  end
+
+  def test_writes_out_csv_file
+    outfile = File.join(@fixture_root, "2016-test-output-2.csv")
     parser = SundataParser.new @parser_files
     parser.read
     parser.parse
     parser.write_csv(outfile)
     assert File.exist?(outfile), "Output file #{outfile} not written."
-    assert_equal File.read(File.join(@fixture_root, "sunscan_data_sample.csv")), File.read(outfile)
+    assert_equal File.read(File.join(@fixture_root, "sunscan_data_sample_2.csv")), File.read(outfile)
   end
 
   def test_preprocessor_adds_fields_to_each_row

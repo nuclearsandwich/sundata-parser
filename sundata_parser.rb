@@ -3,23 +3,74 @@
 require "csv"
 require "ostruct"
 
+# # SundataParser
+# A class to read through an array of sundata TXT files and produce a csv file
+# as output.
+#
+# ### Examples:
+#     # Creating a new parser object. This is done when customizing the csv generation process.
+#     SundataPaser.new ["data/file1.TXT", "data/file2.TXT"]
+#
+#     # Using the automatic runner. This starts the process as if it were run from a terminal
+#     # prompt directly.
+#     SundataParser.run! ARGV
 class SundataParser
   attr_reader :input_files, :input_data, :output_data
 
+  # Initialize a new parser object
+  #
+  # This method isn't run directly, but is run as part of SundataParser.new
+  #
+  # - `input_files` an array of filenames to read as sundata files.
+  #
   def initialize input_files
     @input_files = input_files
     @input_data = Hash.new
     @output_data = Array.new
   end
 
+  # Read input files into memory.
+  #
+  # Read from each input file in `input_files` and store the file contents
+  # associated with the filename in a Ruby Hash Object.
+  #
+  # ### Examples:
+  #     parser.read
+  #     parser.input_data.each do |filename, file_contents|
+  #       # ...
+  #     end
+  #
+  # Filenames that do not exist are ignored without error.
+  #
+  # Returns nil but after reading data will be available in `input_data`.
   def read
     @input_files.each do |file|
       if File.exist? file
         input_data[file] = File.read(file)
       end
     end
+    nil
   end
 
+  # Set a preprocess script to be run once per input file when parsing data.
+  #
+  #
+  # This can be used to add custom fields to the final output and is especially
+  # useful if you have information you need to extract from the filename.
+  #
+  # To set a preprocessor, call this method with a Ruby block that has two
+  # inputs, the filename of the current input file and the OpenStruct object
+  # that will be used as the template for all row data in the final output.
+
+  # ### Examples:
+  #
+  #     parser.preprocess do |filename, rowdata_template|
+  #       rowdata_template.original_filename = filename
+  #       rowdata_template.site_number = filename.split(" ")[2]
+  #     end
+  #
+  # Does not return anything but stores the provided block for use during
+  # parsing.  Raises an ArgumentError if called without a block.
   def preprocess &preprocess_block
     if preprocess_block.nil?
       raise ArgumentError.new "#preprocess received with no block argument."
@@ -27,14 +78,18 @@ class SundataParser
     @preprocess_block = preprocess_block
   end
 
-  def run_preprocess filename, rowdata_template
-    @preprocess_block.call(filename, rowdata_template) if @preprocess_block
-  end
-
+  # Parse the input data and build output data.
+  #
+  # Transform the plaintext data that has been read and build an Array of
+  # output rows.  If a preprocessor block was set, that will be used to set
+  # initial values for rows in each filename.
+  #
+  # Does not have a return value but it will populate `output_data` with
+  # OpenStruct objects representing each entry in the original data table.
   def parse
     input_data.each do |filename, data|
       rowdata_template = OpenStruct.new
-      run_preprocess(filename, rowdata_template)
+      @preprocess_block.call(filename, rowdata_template) if @preprocess_block
 
       arrived_at_table_data = false
 
@@ -85,13 +140,42 @@ class SundataParser
     end
   end
 
-  def write_csv filename
+
+  # Write csv output to the given filename.
+  #
+  # - `filename` The name of the csv file to write to.
+  # - `fields` The ordered array of fields to include. Defaults to all
+  #   available fields.
+  #
+  # ### Examples
+  #
+  #     parser.write_csv("sample-output.csv")
+  #     parser.write_csv("sample-output.csv", ["time", "incident", "beam", "transmitted")
+  #     parser.write_csv("sample-output.csv", %w[zenith_angle plot sample lai notes]
+  #
+  # After running row data will be written to the filename specified with a header
+  # line for import into a preferred spreadsheet tool.
+  def write_csv filename, fields = nil
+
+    # By default all fields present in every row of output_data will be incorporated.
+    if fields.nil?
+      # Transform each output struct into a list of its keys, then take the intersection of each Array of keys.
+      # This ensures that only fields present for all rows will be incorporated.
+      fields = output_data.map{|o| o.to_h.keys}.inject do |last_keys, this_keys|
+        last_keys & this_keys
+      end
+    end
+
     CSV.open filename, "wb", row_sep: "\r\n" do |csv|
       # Header line
-      csv << %w[year site time plot sample transmitted spread incident beam zenith\ angle lai notes]
+      csv << fields
 
-      output_data.sort_by{|o| o["site"]}.each do |out|
-        csv << [out["year"], out["site"], out["time"], out["plot"], out["sample"], out["transmitted"], out["spread"], out["incident"], out["beam"], out["zenith angle"], out["lai"], out["notes"]]
+      output_data.each do |out|
+        output_row = []
+        fields.each do |field|
+          output_row << out[field]
+        end
+        csv << output_row
       end
     end
   end
