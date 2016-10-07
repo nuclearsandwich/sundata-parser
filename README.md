@@ -3,7 +3,9 @@ sundata parser
 
 Parse files from SunData for Windows Mobile and output a csv result.
 
-This initial version is written for a specific situation and could be rebuilt for others.
+This initial version is written to process a specific set of data.
+If you wish to use this for other collections of sundata output that's great!
+I can be reached via the email address listed on [my GitHub profile](https://github.com/nuclearsandwich)
 
 Getting data into your spreadsheet application as quick as  
 `ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
@@ -31,11 +33,21 @@ ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
 
 As log as it says `ruby 2` you should be fine.
 
+## SunData as a service. :smile:
+
+I want this to be useful.
+If you're in a completely Windows environment, don't have access to a supported version of the Ruby programming language, or for any reason aren't comfortable or able to follow the instructions provided that's totally okay!
+Send [me an email](mailto:steven@nuclearsandwich.com) and I can either help you through the process or run this on your data for you and give you the result.
+I'm exploring ways to make this tool more widely accessible and your feedback would be welcome.
+
+
 ## Installation
 
 Download the zip file and extract it somewhere either near your data or within easy reach of your Terminal.
 
-## Running
+
+## Running locally
+
 
 If your data is in a folder called `sundata` and you've extracted the `sundata-parser.zip` file into directory above you can run the following command to process all data.
 
@@ -59,19 +71,44 @@ The code here is released under [a permissive license](LICENSE). If for some rea
 
 If you have trouble using this program I'm happy to help you sort it out!
 If you have a GitHub.com account already, the best thing to do is open an [issue](https://github.com/nuclearsandwich/sundata-parser/issues/new).
-If you don't have a GitHub account you can also email me: <steven@nuclearsandwich.com>.
+If you don't have a GitHub account you can also email me directly: <steven@nuclearsandwich.com>.
 
-## Changing the output data
+## Setting which fields are output
 
-TODO. Contact me via the email address on [my profile](https://github.com/nuclearsandwich) for assistance with this.
+By default, all fields that are present for every row will be in the output csv.
+You may not need every field collected for your data or you may wish to include fields that only some data entries will have.
+To explicitly set which fields should be in the output csv you can set them with the `--fields` option when running via Terminal or as an additional option to the `write_csv` method when running via Ruby script.
 
-## Changing the parsing strategy
 
-TODO. Contact me via the email address on [my profile](https://github.com/nuclearsandwich) for assistance with this.
+#### Specifying fields on the command line.
+
+```
+ruby sundata_parser.rb --outfile "sunscan data.csv" --fields "site,plot,transmitted,beam,lai,notes" "data/file 1.TXT" "data/file 2.TXT"
+```
+
+#### Specifying fields via Ruby script
+
+```ruby
+parser.write_csv(csv_filename, ["site", "plot", "transmitted", "beam", "lai", "notes"])
+```
+
+## Adding fields with a pre-processor
+
+It's possible to add situation-specific information using Ruby.
+I used this to add two fields to every row based on the name of the original sundata file.
+
+In order to use this, you will need to create a file or modify the template file: `custom_preprocessor.rb` and add your custom information as fields to the rowdata_template.
+
+```ruby
+parser.preprocessor do |filename, rowdata_template|
+  rowdata_template.original_filename = filename
+end
+```
 
 ## Contributing
 
-Contributions and changes are welcome! Feel free to contact me with assistance making changes or if you want to just [submit a pull request](https://help.github.com/articles/creating-a-pull-request/) that's great too.
+Contributions and changes are welcome!
+Feel free to contact me with assistance making changes or if you want to just [submit a pull request](https://help.github.com/articles/creating-a-pull-request/) that's great too.
 
 Because the sunscan data uses carriage return (`CR`, `\r`, `^M`) characters at the end of lines, you may run into issues with your Git configuration and see something like
 
