@@ -2,6 +2,7 @@
 
 require "csv"
 require "ostruct"
+require "pry"
 
 # # SundataParser
 # A class to read through an array of sundata TXT files and produce a csv file
@@ -107,8 +108,8 @@ class SundataParser
             rowdata_template.sunscan_version = sunscan_match[1]
           end
 
-          if line[":"]
-            line.split(":").map(&:strip).each_slice(2) do |key, value|
+          if matches = line.scan(/\s*([^\t:]+)\s*:\s*([^\t:]+)/)
+            matches.flatten.map(&:strip).each_slice(2) do |key, value|
               next if value.nil? || value.empty?
               rowdata_template[key.downcase.gsub(" ", "_")] = value
             end

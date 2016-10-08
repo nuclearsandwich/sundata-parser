@@ -34,13 +34,15 @@ class TestSundataParser < MiniTest::Test
   end
 
   def test_parses_sunscan_file_attributes
+    require "pry"
     sample_data = @parser.output_data.first
     assert_equal "Fictional", sample_data["location"]
     assert_equal "Sample Sunscan Data", sample_data["title"]
-    assert_equal "35.17N", sample_data["latitude"]
-    assert_equal "79.18W", sample_data["longitude"]
-    assert_equal "BFS", sample_data["ext sensor"]
-    assert_equal "1", sample_data["leaf angle distn parameter"]
+    assert_equal "67.16S", sample_data["latitude"]
+    assert_equal "125.43W", sample_data["longitude"]
+    assert_equal "BFS", sample_data["ext_sensor"]
+    assert_equal "1", sample_data["leaf_angle_distn_parameter"]
+    assert_equal "0.85", sample_data["leaf_absorption"]
   end
 
   def test_parses_sunscan_table_attributes
