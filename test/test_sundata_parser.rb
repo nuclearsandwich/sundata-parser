@@ -34,7 +34,6 @@ class TestSundataParser < MiniTest::Test
   end
 
   def test_parses_sunscan_file_attributes
-    require "pry"
     sample_data = @parser.output_data.first
     assert_equal "Fictional", sample_data["location"]
     assert_equal "Sample Sunscan Data", sample_data["title"]

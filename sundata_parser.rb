@@ -2,7 +2,6 @@
 
 require "csv"
 require "ostruct"
-require "pry"
 
 # # SundataParser
 # A class to read through an array of sundata TXT files and produce a csv file
