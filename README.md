@@ -16,7 +16,7 @@ The code here is released under [a permissive license](LICENSE). If for some rea
 
 To use Sundata Parser you'll need:
 
-- A MacOS or Linux computer (Windows has not yet been tested)
+- A macOS or Linux computer (Windows has not yet been tested)
 - The Ruby language (Recent versions of MacOS have Ruby available by default)
 - To be able to use some basic terminal commands
 
