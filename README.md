@@ -65,7 +65,7 @@ ruby sundata_parser.rb --outfile "sunscan data.csv" "data/file1.TXT" "data/file2
 ```
 
 `--fields`: Which fields to include in the output. By default all fields present in the data are kept.
-All fiends should be comma separated.
+All fields should be comma separated.
 ```
 ruby sundata_parser.rb --outfile "sunscan data.csv" --fields "site,plot,transmitted,beam,lai,notes" "data/file 1.TXT" "data/file 2.TXT"
 ```
