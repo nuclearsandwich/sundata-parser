@@ -48,6 +48,11 @@ I'm exploring ways to make this tool more widely accessible and your feedback wo
 
 Download the zip file and extract it somewhere either near your data or within easy reach of your Terminal.
 
+Click the green "Clone or Download" button, then select "Download ZIP".
+
+- Chrome/macOS, the file will be saved into your "Downloads" folder as "sundata-parser-master.zip"
+- Safari/macOS, the file will be saved into your "Downloads" folder and unziped into the folder "sundata-parser-master"
+- Firefox/macOS, the file will be saved into your "Downloads" folder. Firefox will ask if you want to open it with  "Archive Utility" (the default handler application).
 
 ## Running locally
 
