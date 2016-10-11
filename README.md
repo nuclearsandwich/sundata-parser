@@ -8,8 +8,9 @@ If you wish to use this for other collections of sundata output that's great!
 I can be reached via the email address listed on [my GitHub profile](https://github.com/nuclearsandwich) if you have trouble.
 
 Getting data into your spreadsheet application as quick as  
+```
 `ruby sundata_parser.rb --outfile "sunscan data.csv" "data/site 1 2013.TXT" "data/site 2 2013.TXT"`
-
+```
 The code here is released under [a permissive license](LICENSE). If for some reason you need a separate licensing option please contact me directly.
 
 ## Prerequisites
