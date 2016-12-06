@@ -187,10 +187,13 @@ class SundataParser
   # this class method can take the preprocess_block directly.
   def SundataParser.run! argument_values, &preprocess_block
     require "optparse"
+    # If the program is run with no arguments, assume the user wants help.
+    # This is distinct from the later check which happens after options are parsed out and
+    # only the input files remain in the argument list.
     argument_values << "-h" if argument_values.empty?
     optparser = OptionParser.new do |opts|
       opts.banner = "Usage: sundata_parser.rb --outfile OUTPUT_FILENAME --fields FIELDS INPUT_FILE..."
-      opts.on "-oOUTFILE", "--outfile OUTFILE", "The name of the file output will be written to" do |outfile|
+      opts.on "-oOUTFILE", "--outfile OUTFILE", "Required. The name of the file output will be written to" do |outfile|
         @outfile = outfile
       end
       opts.on "-fFIELDS", "--fields FIELDS", "A comma-separated list of fields to output" do |fields|
@@ -199,6 +202,7 @@ class SundataParser
 
       opts.on "-h", "--help", "Prints this help" do
         puts opts
+        puts "    INPUT_FILES...                   Required. The text files containing SunData information."
         puts "  for more information and help visit https://github.com/nuclearsandwich/sundata-parser"
         exit
       end
@@ -210,7 +214,7 @@ class SundataParser
     end
 
     unless defined?(@outfile)
-      puts "Error: no output file. Run `#{$0} -h` for more information."
+      puts "Error: no output file, specify one with the --outfile option. Run `#{$0} -h` for more information."
       exit(1)
     end
 
