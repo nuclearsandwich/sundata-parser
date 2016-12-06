@@ -187,7 +187,7 @@ class SundataParser
   # this class method can take the preprocess_block directly.
   def SundataParser.run! argument_values, &preprocess_block
     require "optparse"
-    argument_values << "-h" if argument_values.empty?
+#    argument_values << "-h" if argument_values.empty?
     optparser = OptionParser.new do |opts|
       opts.banner = "Usage: sundata_parser.rb --outfile OUTPUT_FILENAME --fields FIELDS INPUT_FILE..."
       opts.on "-oOUTFILE", "--outfile OUTFILE", "Required. The name of the file output will be written to" do |outfile|
